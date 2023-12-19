@@ -1,47 +1,42 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { ref } from 'vue'
+
+type Todo = {
+  id: number,
+  title: string,
+  completed: boolean,
+}
+
+const todo = ref<Todo>({
+  id: 0,
+  title: 'todo item',
+  completed: false,
+})
+
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
+ <section id="app" class="todoapp">
+  <header class="header">
+    <h1>todos</h1>
+    <input type="text"
+    class="new-todo"
+    placeholder="what needs to done?"
+    v-model="todo.title"
+    >
   </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <section class="main">
+    <ul class="todo-list">
+      <li>
+        <div class="view">
+          <label>{{ todo.title }}</label>
+        </div>
+      </li>
+    </ul>
+  </section>
+ </section>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
+<style>
+@import url("https://unpkg.com/todomvc-app-css@2.4.2/index.css");
 </style>
