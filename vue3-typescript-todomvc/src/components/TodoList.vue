@@ -25,18 +25,24 @@ const done = (todo: Todo, completed: boolean) => {
   // console.log(completed)
 }
 
-const toggleAll = (t:any) => {
-  emit('toggleAll', t.checked)
-}
+// onchangeについてはわかりませんでしたー。後回し
+// const onChange = (checked:any) => {
+//   emit('toggleAll', t.checked)
+// }
+
+const onChange = (target:any) => {
+  // console.log(target.checked)
+	emit('toggleAll', target.checked);
+};
 
 </script>
 
-<template>{{ checked }}{{ filteredTodos }}
+<template>{{ checked }}
   <input
 			id="toggle-all"
 			type="checkbox"
 			class="toggle-all"
-      @click="toggleAll"
+      @click="onChange"
       :checked="allDone"
 		/>
 		<label for="toggle-all">Mark all as complete</label>

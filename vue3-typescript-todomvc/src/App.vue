@@ -75,9 +75,13 @@ const allDone = computed(() => remaining.value === 0)
 
 
 
+// const toggleAll = (checked: boolean) => {
+//   return todos.value.forEach((todo) => todo.completed = checked)
+// }
+
 const toggleAll = (checked: boolean) => {
-  return todos.value.forEach((todo) => todo.completed = checked)
-}
+	todos.value.forEach((todo) => (todo.completed = checked));
+};
 
 </script>
 
