@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import TodoInput from './components/TodoInput.vue';
 import TodoList from './components/TodoList.vue';
+import FooterSection from './components/FooterSection.vue';
 // import TodoItem from './components/TodoItem.vue';
 
 export type Todo = {
@@ -28,20 +29,59 @@ const addTodo = (todoTitle: string) => {
   // console.log(todos.value)
 }
 
-function removeTodo(removeTodo: Todo){
+const removeTodo = (removeTodo: Todo) => {
   todos.value = todos.value.filter((todo) => todo !== removeTodo)
   // console.log(removeTodo.id)
   // console.log(todos.value)
 }
 
-function done(todo: Todo, completed: boolean){
+const done = (todo: Todo, completed: boolean) => {
   todo.completed = completed
   // console.log(todo.completed)
 }
 
+// const remaining = computed(() => getActive.value.length)
+// const getActive = computed(() => {
+//   return todos.value.filter((todo) => todo.completed === false)
+// })
+const remaining = computed(() => getActive(todos.value).length)
+function getActive(todos:Todo[]){
+  return todos.filter((todo) => !todo.completed)
+}
+
+const visibility = ref('all')
+
+const onHashChange = () => {
+  visibility.value = window.location.hash.replace(/#\/?/,'')
+}
+onMounted(() => {
+  window.addEventListener('hashchange',onHashChange)
+})
+
+const filteredTodos = computed(() => {
+  switch(visibility.value){
+    case 'all':
+      return todos.value
+    case 'active':
+      return todos.value.filter((todo) => !todo.completed)
+    case 'completed':
+      return todos.value.filter((todo) => todo.completed)
+    default:
+      return todos.value
+  }
+})
+
+const allDone = computed(() => remaining.value === 0)
+
+
+
+const toggleAll = (checked: boolean) => {
+  return todos.value.forEach((todo) => todo.completed = checked)
+}
+
 </script>
 
-<template>
+<template>{{ allDone }}
  <section id="app" class="todoapp">
   <header class="header">
     <h1>todos</h1>
@@ -53,10 +93,18 @@ function done(todo: Todo, completed: boolean){
     > -->
   </header>
   <section class="main">
-    <TodoList 
+    <!-- <TodoList 
     :todos="todos"
     @removeTodo="removeTodo" 
     @done="done"
+    /> -->
+    <TodoList 
+    :filteredTodos="filteredTodos"
+    :todos="todos"
+    @removeTodo="removeTodo" 
+    @done="done"
+    @toggleAll="toggleAll"
+    :allDone="allDone"
     />
     <!-- <ul class="todo-list">
       <li>
@@ -67,6 +115,7 @@ function done(todo: Todo, completed: boolean){
     </ul> -->
   </section>
  </section>
+ <FooterSection :todos="todos" :remaining="remaining" :visibility="visibility"/>
 </template>
 
 <style>

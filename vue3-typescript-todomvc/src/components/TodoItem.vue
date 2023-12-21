@@ -27,7 +27,7 @@ const onchange = () => {
 	type="checkbox" 
 	class="toggle"
 	@change="onchange"
-	:value="todo.completed"
+	:checked="todo.completed"
 	>
 	<label>{{ todo.title }}</label>
 	<button class="destroy" @click="removeTodo"/>
