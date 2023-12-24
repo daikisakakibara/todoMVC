@@ -42,15 +42,20 @@ const editTodo = (todo:Todo) => {
 }
 
 const doneEdit = (todoTitle: string) => {
-  // if(!editedTodo.value) return
+  if(!editedTodo.value) return
   const title = todoTitle.trim()
   if(title) {
-    editedTodo.value?.title = title
+    editedTodo.value.title = title
   } else {
-    removeTodo(editTodo.value)
+    removeTodo(editedTodo.value)
   }
   editedTodo.value = null
 }
+
+const cancelEdit = () => {
+	editedTodo.value = null;
+};
+
 </script>
 
 <template>{{ editedTodo }}
@@ -68,7 +73,7 @@ const doneEdit = (todoTitle: string) => {
         @done="done" 
         @editTodo="editTodo"
         />
-        <TodoEdit :todo="todo" @doneEdit="doneEdit"/>
+        <TodoEdit :todo="todo" @doneEdit="doneEdit" @cancelEdit="cancelEdit"/>
     </li>
   </ul>
 </template>

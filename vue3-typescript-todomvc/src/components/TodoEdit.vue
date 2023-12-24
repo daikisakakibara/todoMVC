@@ -7,8 +7,9 @@ type Props = {
 }
 type Emit = {
 	(event:'doneEdit',editTitle: string): void
+	(event: 'cancelEdit'): void
 }
-defineProps<Props>()
+const props = defineProps<Props>()
 const emit = defineEmits<Emit>()
 
 const editedTitle = ref<string | null>(null)
@@ -26,6 +27,12 @@ const onInput = ({ target }: Event) => {
 	}
 }
 
+const cancelEdit = ({ target }: Event) => {
+	if (!(target instanceof HTMLInputElement)) return;
+	target.value = props.todo.title;
+	emit('cancelEdit');
+};
+
 </script>
 
 <template>
@@ -36,6 +43,7 @@ const onInput = ({ target }: Event) => {
 	:value="todo.title"
 	@input="onInput"
 	@keypress.enter="doneEdit"
+	@keyup.esc="cancelEdit"
 	/>
 	<!-- <input 
 	:id="`edit-${todo.id}`" 
