@@ -73,7 +73,11 @@ const cancelEdit = () => {
         @done="done" 
         @editTodo="editTodo"
         />
-        <TodoEdit :todo="todo" @doneEdit="doneEdit" @cancelEdit="cancelEdit"/>
+        <TodoEdit 
+        :todo="todo" 
+        @doneEdit="doneEdit" 
+        @cancelEdit="cancelEdit"
+        />
     </li>
   </ul>
 </template>

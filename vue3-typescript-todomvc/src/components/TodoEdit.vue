@@ -44,6 +44,7 @@ const cancelEdit = ({ target }: Event) => {
 	@input="onInput"
 	@keypress.enter="doneEdit"
 	@keyup.esc="cancelEdit"
+	@blur="doneEdit"
 	/>
 	<!-- <input 
 	:id="`edit-${todo.id}`" 
