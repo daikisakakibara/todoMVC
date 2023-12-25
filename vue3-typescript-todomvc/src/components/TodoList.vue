@@ -77,6 +77,7 @@ const cancelEdit = () => {
         :todo="todo" 
         @doneEdit="doneEdit" 
         @cancelEdit="cancelEdit"
+        :editedTodo="editedTodo"
         />
     </li>
   </ul>
