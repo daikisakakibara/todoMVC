@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { Todo } from '../App.vue'
-import type { Directive, VNode } from '../App.vue'
+import type { Directive } from 'vue'
 
 
 type Props = {

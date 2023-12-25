@@ -58,27 +58,50 @@ const cancelEdit = () => {
 
 </script>
 
-<template>{{ editedTodo }}
-  <input id="toggle-all" type="checkbox" class="toggle-all" @click="onChange" :checked="allDone" />
-  <label for="toggle-all">Mark all as complete</label>
-  <ul class="todo-list">
-    <li
-      v-for="todo in filteredTodos"
-      :key="todo.id"
-      :class="['todo', { completed: todo.completed, editing: todo == editedTodo }]"
-    >
-        <TodoItem
-        :todo="todo" 
-        @removeTodo="removeTodo" 
-        @done="done" 
-        @editTodo="editTodo"
-        />
-        <TodoEdit 
-        :todo="todo" 
-        @doneEdit="doneEdit" 
-        @cancelEdit="cancelEdit"
-        :editedTodo="editedTodo"
-        />
-    </li>
-  </ul>
+<template>
+  <section class="main">
+    <input id="toggle-all" type="checkbox" class="toggle-all" @click="onChange" :checked="allDone" />
+    <label for="toggle-all">Mark all as complete</label>
+    <TransitionGroup class="todo-list" name="todo-item" tag="ul">
+      <!-- <ul> -->
+        <li
+          v-for="todo in filteredTodos"
+          :key="todo.id"
+          :class="[
+                  'todo-item', 
+                  { completed: todo.completed, editing: todo == editedTodo }
+                  ]"
+        >
+            <TodoItem
+            :todo="todo" 
+            @removeTodo="removeTodo" 
+            @done="done" 
+            @editTodo="editTodo"
+            />
+            <TodoEdit 
+            :todo="todo" 
+            @doneEdit="doneEdit" 
+            @cancelEdit="cancelEdit"
+            :editedTodo="editedTodo"
+            />
+        </li>
+      <!-- </ul> -->
+    </TransitionGroup>
+  </section>
 </template>
+
+<style scoped>
+.todo-item {
+  transition: 1s
+}
+.todo-item-enter-from,
+.todo-item-leave-to {
+  opacity: 0;
+  transform: translateX(400px)
+}
+.todo-item-leave-active {
+  position: absolute
+}
+
+
+</style>
